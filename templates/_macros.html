@@ -20,30 +20,4 @@
 
 
 
-{% macro campoCine(field)%}
-    <td>{{field.label}}</td>
-    <dd>{{field(**kwargs) | safe}}</dd>
-    {% if field.errors %}
-        {% for error in field.errors%}
-            <li style="color: red">{{error}}</li>
-        {% endfor %}
-    {% endif %}
-
-{% endmacro %}
-
-
-{% macro radio(name, label) %}
-<div class="mb-3">
-    <label class="form-label">{{ label }}</label><br>
-    <input type="radio" name="{{ name }}" value="1"> Si
-    <input type="radio" name="{{ name }}" value="0"> No
-</div>
-{% endmacro %}
-
-{% macro mostrar(label, valor) %}
-<div class="mb-3">
-    <label class="form-label">{{ label }}</label>
-    <div class="form-control"> {{ valor }} </div>  
-</div>
-{% endmacro %}
 
