@@ -14,7 +14,7 @@ app = Flask(__name__)
 app.config.from_object(DevelopmentConfig)
 csrf=CSRFProtect()
 db.init_app(app)
-migrate=Migrate(app,db)
+migrate=Migrate(app, db)
 
 
 @app.route("/")
@@ -30,8 +30,10 @@ def alumnos():
 	create_from=forms.UserForm(request.form)
 	if request.method=='POST':
 		alum=Alumnos(nombre=create_from.nombre.data,
-					 apaterno=create_from.apaterno.data,
-					 email=create_from.email.data)
+					 apellidos=create_from.apellidos.data,
+					 email=create_from.email.data,
+					 telefono=create_from.telefono.data
+					 )
 		db.session.add(alum)
 		db.session.commit()
 		return redirect(url_for('index'))
@@ -46,10 +48,11 @@ def detalles():
 		alum1=db.session.query(Alumnos).filter(Alumnos.id==id).first()
 		id=request.args.get('id')
 		nombre=alum1.nombre
-		apaterno=alum1.apaterno
+		apellidos=alum1.apellidos
 		email=alum1.email
+		telefono=alum1.telefono
 
-	return render_template("detalles.html", form=create_from, nombre=nombre,apaterno=apaterno,email=email)
+	return render_template("detalles.html", form=create_from, nombre=nombre,apellidos=apellidos,email=email,telefono=telefono)
 
 @app.route("/modificar", methods=['GET','POST'])
 def modificar():
@@ -60,19 +63,21 @@ def modificar():
 
 		create_from.id.data=request.args.get('id')
 		create_from.nombre.data=alum1.nombre
-		create_from.apaterno.data=alum1.apaterno
-		create_from.correo.data=alum1.email
+		create_from.apellidos.data=alum1.apellidos
+		create_from.email.data=alum1.email
+		create_from.telefono.data=alum1.telefono
 
 	if request.method=='POST':
 		alum1 = db.session.query(Alumnos).filter(Alumnos.id==id).first()
 		alum1.id=id
 		alum1.nombre=str.rstrip(create_from.nombre.data)
-		alum1.apaterno=create_from.email.data
+		alum1.apellidos=create_from.apellidos.data
 		alum1.email=create_from.email.data
+		alum1.telefono=create_from.telefono.data
 		db.session.add(alum1)
 		db.session.commit()
 		return redirect(url_for('index'))
-	return render_template("modificar.html")
+	return render_template("modificar.html", form=create_from)
 
 @app.route("/eliminar", methods=['GET','POST'])
 def eliminar():
@@ -82,15 +87,17 @@ def eliminar():
 		alum1=db.session.query(Alumnos).filter(Alumnos.id==id).first()
 		create_from.id.data=request.args.get('id')
 		create_from.nombre.data=alum1.nombre
-		create_from.apaterno.data=alum1.apaterno
+		create_from.apellidos.data=alum1.apellidos
 		create_from.email.data=alum1.email
+		create_from.telefono.data=alum1.telefono
+
 	if request.method=='POST':
 		alum1 = Alumnos.query.get(id)
 		
 		db.session.add(alum1)
 		db.session.commit()
 		return redirect(url_for('index'))
-	return render_template("eliminar.html")	
+	return render_template("eliminar.html", form=create_from)	
 
 
 @app.errorhandler(404)
