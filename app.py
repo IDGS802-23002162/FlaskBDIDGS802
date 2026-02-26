@@ -4,6 +4,7 @@ from flask_wtf.csrf import CSRFProtect
 from config import DevelopmentConfig
 from flask import g
 import forms
+from flask_migrate import Migrate
 
 from models import db
 
@@ -11,8 +12,9 @@ from models import Alumnos
 
 app = Flask(__name__)
 app.config.from_object(DevelopmentConfig)
-db.init_app(app)
 csrf=CSRFProtect()
+db.init_app(app)
+migrate=Migrate(app,db)
 
 
 @app.route("/")
@@ -55,12 +57,14 @@ def modificar():
 	if request.method=='GET':
 		id=request.args.get('id')
 		alum1=db.session.query(Alumnos).filter(Alumnos.id==id).first()
+
 		create_from.id.data=request.args.get('id')
 		create_from.nombre.data=alum1.nombre
 		create_from.apaterno.data=alum1.apaterno
-		create_from.email.data=alum1.email
+		create_from.correo.data=alum1.email
+
 	if request.method=='POST':
-		alum1 = db,session,query(Alumnos).filter(Alumnos.id==id).first()
+		alum1 = db.session.query(Alumnos).filter(Alumnos.id==id).first()
 		alum1.id=id
 		alum1.nombre=str.rstrip(create_from.nombre.data)
 		alum1.apaterno=create_from.email.data
@@ -69,6 +73,24 @@ def modificar():
 		db.session.commit()
 		return redirect(url_for('index'))
 	return render_template("modificar.html")
+
+@app.route("/eliminar", methods=['GET','POST'])
+def eliminar():
+	create_from=forms.UserForm(request.form)
+	if request.method=='GET':
+		id=request.args.get('id')
+		alum1=db.session.query(Alumnos).filter(Alumnos.id==id).first()
+		create_from.id.data=request.args.get('id')
+		create_from.nombre.data=alum1.nombre
+		create_from.apaterno.data=alum1.apaterno
+		create_from.email.data=alum1.email
+	if request.method=='POST':
+		alum1 = Alumnos.query.get(id)
+		
+		db.session.add(alum1)
+		db.session.commit()
+		return redirect(url_for('index'))
+	return render_template("eliminar.html")	
 
 
 @app.errorhandler(404)
