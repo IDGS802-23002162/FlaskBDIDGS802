@@ -1,7 +1,7 @@
 {% extends "layout.html"%} {%block container%}  {% import "_macros.html" as macros %} 
 
 
- <a href="Alumnos" class="font-medium text-fg-brand hover:underline">Insertar</a> 
+ <a href="insertarMaestros" class="font-medium text-fg-brand hover:underline">Insertar</a> 
 
 <div class="relative overflow-x-auto bg-neutral-primary-soft shadow-xs rounded-base border border-default">
     <table class="w-full text-sm text-left rtl:text-right text-body">
@@ -17,7 +17,7 @@
                     Correo
                 </th>
                  <th scope="col" class="px-6 py-3 font-medium">
-                    Telefono
+                    Especialidad
                 </th>
                 <th scope="col" class="px-6 py-3 font-medium">
                     Editar
@@ -31,28 +31,28 @@
             </tr>
         </thead>
         <tbody>
-          {% for alum in alumno %}
+          {% for mae in maestro %}
             <tr class="odd:bg-neutral-primary even:bg-neutral-secondary-soft border-b border-default">
                 <th scope="row" class="px-6 py-4 font-medium text-heading whitespace-nowrap">
-                    {{alum.nombre}}
+                    {{mae.nombre}}
                 </th>
                 <td class="px-6 py-4">
-                    {{alum.apellidos}}
+                    {{mae.apellidos}}
                 </td>
                 <td class="px-6 py-4">
-                    {{alum.email}}
+                    {{mae.email}}
                 </td>
                 <td class="px-6 py-4">
-                    {{alum.telefono}}
+                    {{mae.especialidad}}
                 </td>
                 <td class="px-6 py-4">
-                    <a href="modificar?id={{alum.id}}" class="font-medium text-fg-brand hover:underline">Edit</a>
+                    <a href="modificarMaestros?matricula={{mae.matricula}}" class="font-medium text-fg-brand hover:underline">Edit</a>
                 </td>
                 <td class="px-6 py-4">
-                    <a href="detalles?id={{alum.id}}" class="font-medium text-fg-brand hover:underline">Detalles</a>
+                    <a href="detallesMaestros?matricula={{mae.matricula}}" class="font-medium text-fg-brand hover:underline">Detalles</a>
                 </td>
                 <td class="px-6 py-4">
-                    <a href="eliminar?id={{alum.id}}" class="font-medium text-fg-brand hover:underline">Eliminar</a>
+                    <a href="eliminarMaestros?matricula={{mae.matricula}}" class="font-medium text-fg-brand hover:underline">Eliminar</a>
                 </td>
             </tr>
           {% endfor %}  

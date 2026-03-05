@@ -4,6 +4,7 @@ from flask_wtf.csrf import CSRFProtect
 from config import DevelopmentConfig
 from flask import g
 import forms
+from maestros.routes import maestros_bp
 from flask_migrate import Migrate
 
 from models import db
@@ -12,10 +13,11 @@ from models import Alumnos
 
 app = Flask(__name__)
 app.config.from_object(DevelopmentConfig)
+
 csrf=CSRFProtect()
 db.init_app(app)
 migrate=Migrate(app, db)
-
+app.register_blueprint(maestros_bp)
 
 @app.route("/")
 @app.route("/index", methods=['GET','POST'])
@@ -103,6 +105,8 @@ def eliminar():
 @app.errorhandler(404)
 def page_not_fount(e):
 	return render_template("404.html"),404	
+
+
 
 if __name__ == '__main__':
 	csrf.init_app(app)
