@@ -13,7 +13,7 @@ def maestros():
     create_form=forms.MaestroForm(request.form)
     #tem=Maestros.query('select * from maestros')
     maestro=Maestros.query.all()
-    return render_template("Maestros.html", form=create_form, maestro=maestro)
+    return render_template("maestros/Maestros.html", form=create_form, maestro=maestro)
 
 @maestros_bp.route("/insertarMaestros", methods=['GET','POST'])
 def alumnos():
@@ -27,23 +27,22 @@ def alumnos():
 		db.session.add(mae)
 		db.session.commit()
 		return redirect(url_for('maestros.maestros'))
-	return render_template("insertarMaestros.html", form=create_from)
+	return render_template("maestros/insertarMaestros.html", form=create_from)
 
 @maestros_bp.route("/detallesMaestros", methods=['GET','POST'])
 def detalles():
-	create_from=forms.MaestroForm(request.form)
 	if request.method=='GET':
 
 		matricula=request.args.get('matricula')
 		maestro1=db.session.query(Maestros).filter(Maestros.matricula==matricula).first()
-        
 		matricula=request.args.get('matricula')
-
+		
 		nombre=maestro1.nombre
 		apellidos=maestro1.apellidos
 		email=maestro1.email
 		especialidad=maestro1.especialidad
-	return render_template("detalles.html", form=create_from, nombre=nombre, apellidos=apellidos, email=email, especialidad=especialidad)
+
+	return render_template("detalles.html", nombre=nombre, apellidos=apellidos, email=email, especialidad=especialidad)
 
 @maestros_bp.route("/modificarMaestros", methods=['GET','POST'])
 def modificar():
@@ -69,7 +68,7 @@ def modificar():
 		db.session.add(mae1)
 		db.session.commit()
 		return redirect(url_for('maestros.maestros'))
-	return render_template("modificarMaestros.html", form=create_from)
+	return render_template("maestros/modificarMaestros.html", form=create_from)
 
 @maestros_bp.route("/eliminarMaestros", methods=['GET','POST'])
 def eliminarMaestros():
@@ -84,9 +83,10 @@ def eliminarMaestros():
 		create_from.especialidad.data=mae1.especialidad
 
 	if request.method=='POST':
+		matricula = create_from.matricula.data 
 		mae1 = Maestros.query.get(matricula)
 		
-		db.session.add(mae1)
+		db.session.delete(mae1)
 		db.session.commit()
 		return redirect(url_for('maestros.maestros'))
-	return render_template("eliminarMaestros.html", form=create_from)	
+	return render_template("maestros/eliminarMaestros.html", form=create_from)	

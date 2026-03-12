@@ -1,0 +1,30 @@
+{% extends "layout.html"%} {%block container%} {% import "_macros.html" as
+macros %} {% for curso in cursos %}
+
+<div class="bg-neutral-primary-soft block max-w-sm p-6 border border-default rounded-base shadow-xs">
+  <h5 class="mb-3 text-2xl font-semibold tracking-tight text-heading leading-8">
+    {{curso.nombre}}
+  </h5>
+  <p class="text-body mb-6">{{curso.descripcion}}</p>
+
+  {%  if curso in alumno.cursos %}
+
+      <button class="inline-flex items-center text-red px-4 py-2 rounded-base" disabled>
+          Ya inscrito
+      </button>
+
+  {% else %}
+
+  <form method="POST">
+
+    {{form.csrf_token}}
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+
+    <input type="hidden" name="curso_id" value="{{curso.id}}" />
+    <button type="submit" class="inline-flex items-center text-white bg-brand px-4 py-2 rounded-base"> Inscribir</button>
+  </form>
+
+  {% endif %}
+</div>
+
+{% endfor %} {%endblock%}

@@ -6,10 +6,10 @@ macros %}
 >
   <div class="flex flex-col items-center">
     <h5 class="mb-0.5 text-xl font-semibold tracking-tight text-heading">
-      {{nombre}} {{apellidos}}
+      {{curso.nombre}}
     </h5>
-    <span class="text-sm text-body">{{email}}</span>
-    <span class="text-sm text-body">{{telefono}}{{especialidad}}</span>
+    <span class="text-sm text-body">{{curso.descripcion}}</span>
+    <span class="text-sm text-body">{{curso.maestro.nombre}}</span>
 
     <button
       onclick="history.back()"
@@ -21,10 +21,11 @@ macros %}
 </div>
 
 
+
 <div class="relative overflow-x-auto bg-neutral-primary-soft shadow-xs rounded-base border border-default">
   <div class="flex flex-col items-center">
     <h5 class="mb-0.5 text-xl font-semibold tracking-tight text-heading">
-      Cursos
+      INSCRIPCIONES
     </h5>
   </div>
  
@@ -33,32 +34,29 @@ macros %}
         <thead class="bg-neutral-secondary-soft border-b border-default">
             <tr>
                 <th scope="col" class="px-6 py-3 font-medium">
-                    Nombre
+                    Alumno
                 </th>
                 <th scope="col" class="px-6 py-3 font-medium">
-                    Descripción
-                </th>
-                <th scope="col" class="px-6 py-3 font-medium">
-                    Maestro
+                    Apellidos
                 </th>
             </tr>
         </thead>
         <tbody>
-          {% for cur in cursos %}
+          {% for alum in alumnos %}
             <tr class="odd:bg-neutral-primary even:bg-neutral-secondary-soft border-b border-default">
                 <th scope="row" class="px-6 py-4 font-medium text-heading whitespace-nowrap">
-                    {{cur.nombre}}
+                    {{alum.nombre}}
                 </th> 
                 <td class="px-6 py-4">
-                    {{cur.descripcion}}
+                    {{alum.apellidos}}
                 </td>
-                <td class="px-6 py-4">
-                    {{cur.maestro.nombre}} {{cur.maestro.apellidos}}
-                </td>
+                
             </tr>
           {% endfor %}  
         </tbody>
     </table>
 </div>
+
+
 
 {%endblock%}

@@ -1,0 +1,59 @@
+{% extends "layout.html"%} {%block container%}  {% import "_macros.html" as macros %} 
+
+
+ <a href="insertarCursos" class="font-medium text-fg-brand hover:underline"><button type="button" class="text-white bg-brand box-border border border-transparent hover:bg-brand-strong focus:ring-4 focus:ring-brand-medium shadow-xs font-medium leading-5 rounded-base text-sm px-4 py-2.5 focus:outline-none">Insertar</button></a> 
+
+<div class="relative overflow-x-auto bg-neutral-primary-soft shadow-xs rounded-base border border-default">
+    <table class="w-full text-sm text-left rtl:text-right text-body">
+        <thead class="bg-neutral-secondary-soft border-b border-default">
+            <tr>
+                <th scope="col" class="px-6 py-3 font-medium">
+                    Nombre
+                </th>
+                <th scope="col" class="px-6 py-3 font-medium">
+                    Descripcion
+                </th>
+                <th scope="col" class="px-6 py-3 font-medium">
+                    Maestro
+                </th>
+                <th scope="col" class="px-6 py-3 font-medium">
+                    Editar
+                </th>
+                <th scope="col" class="px-6 py-3 font-medium">
+                    Detalles
+                </th>
+                <th scope="col" class="px-6 py-3 font-medium">
+                    Eliminar
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+          {% for cur in curso %}
+            <tr class="odd:bg-neutral-primary even:bg-neutral-secondary-soft border-b border-default">
+                <th scope="row" class="px-6 py-4 font-medium text-heading whitespace-nowrap">
+                    {{cur.nombre}}
+                </th>
+                <td class="px-6 py-4">
+                    {{cur.descripcion}}
+                </td>
+                <td class="px-6 py-4">
+                    {{ cur.maestro.nombre }} {{ cur.maestro.apellidos }}
+                </td>
+                <td class="px-6 py-4">
+                    <a href="modificarCurso?id={{cur.id}}" class="font-medium text-fg-brand hover:underline">Edit</a>
+                </td>
+                <td class="px-6 py-4">
+                    <a href="detallesCurso?id={{cur.id}}" class="font-medium text-fg-brand hover:underline">Detalles</a>
+                </td>
+                <td class="px-6 py-4">
+                    <a href="eliminarCurso?id={{cur.id}}" class="font-medium text-fg-brand hover:underline">Eliminar</a>
+                </td>
+            </tr>
+          {% endfor %}  
+        </tbody>
+    </table>
+</div>
+
+
+{%endblock%}
+
